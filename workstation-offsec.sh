@@ -71,6 +71,8 @@ bash /mnt/root/strap.sh
 arch-chroot /mnt bash /root/strap.sh
 
 printf "${CYAN}[*] ${GREEN}Installing optionnal packages${NC}\n"
+#Hyprland
+pacstrap /mnt kitty hyprland 
 ## VMware
 #pacstrap /mnt open-vm-tools xf86-input-vmmouse xf86-video-vmware mesa
 # KDE
@@ -82,7 +84,7 @@ pacstrap /mnt keepassxc firefox unzip discord docker dos2unix audacity filezilla
 ## Gnome
 #pacstrap /mnt gnome gnome-software-packagekit-plugin networkmanager
 # Offsec + custom
-pacstrap /mnt impacket networkmanager-openconnect acpi aircrack-ng aria2 bettercap bind binwalk cmatrix code davtest dbeaver dcfldd dirb enum4linux-ng evil-winrm ffuf freerdp ghidra go hdparm hydra iotop ipcalc iperf3 jq kerbrute kgpg masscan metasploit mitmproxy mtr nikto noto-fonts-emoji nuclei openconnect parallel patchelf php pigz proxychains pycharm-community-edition pyenv python-jsbeautifier python-pipx python-poetry python-pipenv qtcreator scapy soapui sqlmap strace stress subfinder texlive-most upx virtualbox wireshark-qt mingw-w64-gcc
+pacstrap /mnt impacket networkmanager-openconnect acpi aircrack-ng aria2 bettercap bind binwalk cmatrix code davtest dbeaver dcfldd dirb enum4linux-ng evil-winrm ffuf freerdp ghidra go hdparm hydra iotop ipcalc iperf3 jq kerbrute kgpg masscan metasploit mitmproxy mtr nikto noto-fonts-emoji nuclei openconnect parallel patchelf php pigz proxychains pycharm-community-edition pyenv python-jsbeautifier python-pipx python-poetry python-pipenv qtcreator scapy soapui sqlmap strace stress subfinder texlive-most upx virtualbox wireshark-qt mingw-w64-gcc 
 
 printf "${CYAN}[*] ${GREEN}Setting up enciphered startup${NC}\n"
 dd bs=512 count=4 if=/dev/random of=/mnt/crypto_keyfile.bin
