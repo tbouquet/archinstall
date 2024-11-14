@@ -61,6 +61,8 @@ pacstrap /mnt plasma yakuake dolphin spectacle kate networkmanager ark gwenview 
 pacstrap /mnt keepassxc firefox unzip discord docker dos2unix audacity filezilla gimp gnome-sound-recorder grc libreoffice-still ncdu networkmanager-openvpn obs-studio p7zip reflector rsync signal-desktop traceroute tree xclip zip vlc wget yt-dlp
 ## Gnome
 #pacstrap /mnt gnome gnome-software-packagekit-plugin networkmanager
+#Hyprland
+pacstrap /mnt kitty hyprland 
 
 printf "${CYAN}[*] ${GREEN}Configuring EFI boot${NC}\n"
 efibootmgr --create --disk /dev/sda --part 1 --label "Arch Linux" --loader /vmlinuz-linux-zen --unicode 'root=/dev/sda3 rw initrd=\amd-ucode.img initrd=\initramfs-linux-zen.img'
