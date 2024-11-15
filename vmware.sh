@@ -93,10 +93,10 @@ arch-chroot /mnt systemctl enable vmtoolsd
 printf "${CYAN}[*] ${GREEN}Enabling autologin for user $2 in SDDM ${NC}\n"
 mkdir /mnt/etc/sddm.conf.d/
 cat <<EOT >> /mnt/etc/sddm.conf.d/kde_settings.conf
-[Autologin]
-Relogin=false
-Session=plasma
-User=$2
+# [Autologin]
+# Relogin=false
+# Session=plasma
+# User=$2
 
 [General]
 HaltCommand=/usr/bin/systemctl poweroff
