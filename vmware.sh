@@ -110,7 +110,8 @@ MaximumUid=60513
 MinimumUid=1000
 EOT
 
-cat <<EOT >> /mnt/home/$2/.config/hyp/hyprland.conf
+mkdir -p /mnt/home/$2/.config/hypr
+cat <<EOT >> /mnt/home/$2/.config/hypr/hyprland.conf
 # This is an example Hyprland config file.
 # Refer to the wiki for more information.
 # https://wiki.hyprland.org/Configuring/
