@@ -14,9 +14,9 @@ pacman -Sy --noconfirm archlinux-keyring
 
 printf "${CYAN}[*] ${GREEN}Formatting disk${NC}\n"
 # Pour deux partitions, une ESP, et une partition principale
-parted -s /dev/nvme0n1 mklabel gpt mkpart primary fat32 1 500M mkpart primary ext4 500M "100%" set 1 boot on
+# parted -s /dev/nvme0n1 mklabel gpt mkpart primary fat32 1 500M mkpart primary ext4 500M "100%" set 1 boot on
 ## With swap
-# parted -s /dev/nvme0n1 mklabel gpt mkpart primary fat32 1 500MB mkpart primary linux-swap 500M 2GB mkpart primary ext4 2GB "100%" set 1 boot on
+parted -s /dev/nvme0n1 mklabel gpt mkpart primary fat32 1 500MB mkpart primary linux-swap 500M 2GB mkpart primary ext4 2GB "100%" set 1 boot on
 
 mkfs.fat -F32 /dev/nvme0n1p1
 
