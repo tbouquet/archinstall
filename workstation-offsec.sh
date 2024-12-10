@@ -29,7 +29,7 @@ printf "${CYAN}[*] ${GREEN}Creating LVM volume${NC}\n"
 pvcreate -ff /dev/mapper/luks
 vgcreate ArchLinux /dev/mapper/luks
 lvcreate -L 8G ArchLinux -n swap
-lvcreate -L 300G ArchLinux -n root
+lvcreate -L 100G ArchLinux -n root
 lvcreate -l 100%FREE ArchLinux -n home
 
 mkfs.ext4 /dev/ArchLinux/root
