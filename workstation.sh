@@ -16,23 +16,23 @@ printf "${CYAN}[*] ${GREEN}Formatting disk${NC}\n"
 ## Pour deux partitions, une ESP, et un ext4 basique
 #parted -s /dev/sda mklabel gpt mkpart primary fat32 1 500M mkpart primary ext4 500M "100%" set 1 boot on
 # With swap
-parted -s /dev/sda mklabel gpt mkpart primary fat32 1 500MB mkpart primary linux-swap 500M 2GB mkpart primary ext4 2GB "100%" set 1 boot on
-mkfs.fat -F32 /dev/sda1
+parted -s /dev/nvme0n1 mklabel gpt mkpart primary fat32 1 500MB mkpart primary linux-swap 500M 2GB mkpart primary ext4 2GB "100%" set 1 boot on
+mkfs.fat -F32 /dev/nvme0n1p1
 
 printf "${CYAN}[*] ${GREEN}Enabling swap partition${NC}\n"
-mkswap /dev/sda2
-swapon /dev/sda2
+mkswap /dev/nvme0n1p2
+swapon /dev/nvme0n1p2
 
 printf "${CYAN}[*] ${GREEN}Creating luks encrypted volume${NC}\n"
-cryptsetup --type luks1 luksFormat /dev/sda3
-cryptsetup open /dev/sda3 luks
+cryptsetup --type luks1 luksFormat /dev/nvme0n1p3
+cryptsetup open /dev/nvme0n1p3 luks
 mkfs.ext4 /dev/mapper/luks
 
 
 printf "${CYAN}[*] ${GREEN}Mounting system partitions${NC}\n"
 mount /dev/mapper/luks /mnt
 mkdir -p /mnt/boot/EFI
-mount /dev/sda1 /mnt/boot/EFI
+mount /dev/nvme0n1p1 /mnt/boot/EFI
 
 printf "${CYAN}[*] ${GREEN}Installing packages${NC}\n"
 reflector --country France --latest 10 --sort rate --save /etc/pacman.d/mirrorlist 
@@ -67,12 +67,12 @@ pacstrap /mnt keepassxc firefox unzip discord docker dos2unix audacity filezilla
 
 printf "${CYAN}[*] ${GREEN}Setting up enciphered startup${NC}\n"
 dd bs=512 count=4 if=/dev/random of=/mnt/crypto_keyfile.bin
-cryptsetup luksAddKey /dev/sda3 /mnt/crypto_keyfile.bin 
+cryptsetup luksAddKey /dev/nvme0n1p3 /mnt/crypto_keyfile.bin 
 
 sed -i 's#FILES=()#FILES=(/crypto_keyfile.bin)#g' /mnt/etc/mkinitcpio.conf
 sed -i 's#filesystems#encrypt filesystems#g' /mnt/etc/mkinitcpio.conf
 sed -i 's/#GRUB_ENABLE_CRYPTODISK=./GRUB_ENABLE_CRYPTODISK=y/g' /mnt/etc/default/grub
-sed -i 's#GRUB_CMDLINE_LINUX=""#GRUB_CMDLINE_LINUX="cryptdevice=/dev/sda3:luks"#g' /mnt/etc/default/grub
+sed -i 's#GRUB_CMDLINE_LINUX=""#GRUB_CMDLINE_LINUX="cryptdevice=/dev/nvme0n1p3:luks"#g' /mnt/etc/default/grub
 
 arch-chroot /mnt mkinitcpio -P
 chmod 000 /mnt/crypto_keyfile.bin
